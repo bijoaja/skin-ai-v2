@@ -1,22 +1,32 @@
 $(document).ready(function(){
-  var apiUrl = "https://https://gvm.pythonanywhere.com";
+  var apiUrl = "https://gvm.pythonanywhere.com";
 
-  $.ajax({
-    url         : apiUrl,
-    type        : "Get",
-    dataType: "json",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    success: function(response) {
-      // Display the received data in the HTML
-      generate_homeMember(response["member"])
-      generate_prediksi(response["recom"])
-    },
-    error: function(xhr, textStatus, errorThrown) {
-      console.log("API request failed with error:", errorThrown);
-  }
-  });
+  setTimeout(function() {
+    try {
+      $.ajax({
+        url         : apiUrl,
+        type        : "Get",
+        dataType: "json",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        success: function(response) {
+          // Display the received data in the HTML
+          generate_homeMember(response["member"])
+          generate_recomm(response["recom"])
+          console.log(response["faceClasses"])
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          console.log("API request failed with error:", errorThrown);
+      }
+      });
+    }
+    catch(e) {
+      // Jika gagal memanggil API, tampilkan error di console
+      console.log("Gagal !");
+      console.log(e);
+      } 
+    }, 500)
 
    // Fungsi untuk memeriksa apakah ada gambar yang diunggah
    function checkImageUploaded() {
@@ -46,31 +56,31 @@ $(document).ready(function(){
 
     setTimeout(function() {
       try {
-            $.ajax({
-                url         : apiUrl+"/api/faceDetect",
-                type        : "POST",
-                data        : pics_data,
-                processData : false,
-                contentType : false,
-                success     : function(res){
-                    // Ambil hasil prediksi dan path gambar yang diprediksi dari API
-                    res_data_prediksi    = res['prediksi']
-                    res_data_diagnosis   = res['diagnosis']
-                    res_data_akurasi     = res['akurasi']
-                    res_gambar_prediksi  = res['gambar_prediksi']
-                    res_data_rekomendasi = res['data_rekomendasi']
-                    
-                    // Tampilkan hasil prediksi ke halaman web
-                    generate_prediksi(res_data_prediksi, res_data_diagnosis, res_data_akurasi, res_gambar_prediksi);
-                    generate_recomm(res_data_rekomendasi)
-              }
-            });
-        }
-        catch(e) {
-            // Jika gagal memanggil API, tampilkan error di console
-            console.log("Gagal !");
-            console.log(e);
-        } 
+        $.ajax({
+          url         : apiUrl+"/api/faceDetect",
+          type        : "POST",
+          data        : pics_data,
+          processData : false,
+          // contentType : false,
+          success     : function(res){
+            // Ambil hasil prediksi dan path gambar yang diprediksi dari API
+            res_data_prediksi    = res['prediksi']
+            res_data_diagnosis   = res['diagnosis']
+            res_data_akurasi     = res['akurasi']
+            res_gambar_prediksi  = res['gambar_prediksi']
+            res_data_rekomendasi = res['data_rekomendasi']
+            
+            // Tampilkan hasil prediksi ke halaman web
+            generate_prediksi(res_data_prediksi, res_data_diagnosis, res_data_akurasi, res_gambar_prediksi);
+            generate_recomm(res_data_rekomendasi)
+          }
+        });
+      }
+      catch(e) {
+        // Jika gagal memanggil API, tampilkan error di console
+        console.log("Gagal !");
+        console.log(e);
+      } 
     }, 1000)
     
   });
@@ -170,22 +180,29 @@ $(document).ready(function(){
   function generate_homeMember(data) {
     var html = data.map(member => {
         return `
-            <div class="member-block-image-wrap" style="height: 18rem;">
-                <img src="static/images/members/${member.Image}.jpg" class="member-block-image img-fluid" alt="">
-                <ul class="social-icon">
-                    <li class="social-icon-item">
-                        <a href="${member.linkedin}" class="social-icon-link bi-linkedin" target="_blank"></a>
-                    </li>
-                    <li class="social-icon-item">
-                        <a href="${member.github}" class="social-icon-link bi-github" target="_blank"></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="member-block-info d-flex align-items-center">
-                <h4>${member.name}</h4>
+        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
+          <div>
+              <div class="member-block-image-wrap" style="height: 18rem;"> 
+                  <img src="./static/images/members/${member.Image}.jpg"  class="member-block-image img-fluid" alt="">
 
-                <p class="ms-auto">${member.position}</p>
-            </div>
+                  <ul class="social-icon">
+                      <li class="social-icon-item">
+                          <a href="${member.linkedin}" class="social-icon-link bi-linkedin" target="_blank"></a>
+                      </li>
+
+                      <li class="social-icon-item">
+                          <a href="${member.github}" target="_blank" class="social-icon-link bi-github"></a>
+                      </li>
+                  </ul>
+              </div>
+
+              <div class="member-block-info d-flex align-items-center">
+                  <h4>${member.name}</h4>
+
+                  <p class="ms-auto">${member.position}</p>
+              </div>
+          </div>
+      </div>
         `;
     }).join("");
 

@@ -744,12 +744,6 @@ strong {
   padding-bottom: 70px;
 }
 
-.member-block{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-}
-
 .member-block-image-wrap {
   border-radius: var(--border-radius-medium);
   position: relative;

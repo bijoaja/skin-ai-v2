@@ -126,10 +126,9 @@
                         </div>
 
                         <!-- START GAMBAR MEMBER -->
-                        <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
-                            <div class="member-block" id="homeMember">
-                            </div>
-                        </div>                    
+                        <div id="homeMember" class="row">
+
+                        </div>                  
                         <!-- END GAMBAR MEMBER -->
 
                     </div>
@@ -189,30 +188,6 @@
 
                                     <tbody>
                                         <tr id="outputRecomm">
-                                            <td class="text-start" style="border-right: 2px solid #3D405B;">
-                                                <ul style="text-align: justify;" id="medications">
-                                                    <!-- Membuat list untuk data medications -->
-                                                    <!-- {%for medication in default_recom[0]['Medication']%}
-                                                        <li>{{medication}}</li>
-                                                    {% endfor %} -->
-                                                </ul>
-                                            </td>
-                                            <td class="text-start" style="border-right: 2px solid #3D405B;">
-                                                <ul style="text-align: justify;">
-                                                    <!-- Membuat list untuk data inggredients -->
-                                                    <!-- {%for Inggredient in default_recom[0]['Skincare Ingredients']%}
-                                                        <li>{{Inggredient}}</li>
-                                                    {% endfor %} -->
-                                                </ul>
-                                            </td>
-                                            <td class="text-start">
-                                                <ul style="text-align: justify;">
-                                                    <!-- Membuat list untuk data Resources -->
-                                                    <!-- {%for resource in default_recom[0]['Resources']%}
-                                                        <li><a href="{{ resource }}" target="_blank" style="word-wrap: break-word;">{{default_recom[0]['Domain'][loop.index0]}}</a></li>
-                                                    {% endfor %} -->
-                                                </ul>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -313,7 +288,7 @@
         <script src="static/js/modernizr.js"></script>
         <script src="static/js/custom.js"></script>
         <!-- JavaScript untuk Animasi Scroll dan Prediksi Model -->
-        <script src="static//js/client_side.js"></script>
+        <script src="static/js/client_side.js"></script>
 
     </body>
 </html>
